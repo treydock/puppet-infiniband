@@ -1,5 +1,8 @@
 class Facter::Util::Infiniband
-  LSPCI_IB_REGEX = /^(.*)\sInfiniBand \[0c06\].*$/
+  LSPCI_IB_REGEX = [ 
+    /^([[:xdigit:]]{2}:[[:xdigit:]]{2}\.\d)\sInfiniBand \[0c06\].*$/,
+    /^([[:xdigit:]]{2}:[[:xdigit:]]{2}\.\d)\sNetwork controller \[0280\].*$/
+  ]
 
   # Returns the number of InfiniBand interfaces found
   # in lspci output
@@ -8,11 +11,7 @@ class Facter::Util::Infiniband
   #
   # @api private
   def self.count_ib_devices
-    if Facter::Util::Resolution.which('lspci')
-      lspci = Facter::Util::Resolution.exec('lspci -nn')
-      matches = lspci.scan(LSPCI_IB_REGEX)
-      matches.flatten.reject {|s| s.nil?}.length
-    end
+    self.get_device_ids.length
   end
 
   # Returns the PCI device ID of the InfiniBand interface card
@@ -20,12 +19,14 @@ class Facter::Util::Infiniband
   # @return [String]
   #
   # @api private
-  def self.get_device_id
+  def self.get_device_ids
     if Facter::Util::Resolution.which('lspci')
-      output = Facter::Util::Resolution.exec('lspci -nn')
-      if output.match(LSPCI_IB_REGEX)
-        $1
+      lspci = Facter::Util::Resolution.exec('lspci -nn')
+      matches = Array.new
+      LSPCI_IB_REGEX.each do |regex|
+        matches = matches + lspci.scan(regex)
       end
+      matches.flatten
     end
   end
 
@@ -34,16 +35,19 @@ class Facter::Util::Infiniband
   # @return [String]
   #
   # @api private
-  def self.get_fw_version
-    device_id = Facter::Util::Infiniband.get_device_id
-    return nil unless device_id
+  def self.get_fw_versions
+    device_ids = Facter::Util::Infiniband.get_device_ids
+    return nil unless device_ids
 
     if Facter::Util::Resolution.which('mstflint')
-      output = Facter::Util::Resolution.exec("mstflint -device #{device_id} -qq query")
-      return nil unless output
-      matches = output.scan(/^FW Version:\s+([0-9\.]+)$/m)
-      fw_version = matches.flatten.reject { |o| o.nil? }.first
-      return fw_version
+      fw_versions = Array.new
+      device_ids.each do |device_id|
+        output = Facter::Util::Resolution.exec("mstflint -device #{device_id} -qq query")
+        return nil unless output
+        matches = output.scan(/^FW Version:\s+([0-9\.]+)$/m)
+        fw_versions << matches.flatten.reject { |o| o.nil? }.first
+      end
+      return fw_versions
     end
   end
 end
