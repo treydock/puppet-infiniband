@@ -14,26 +14,49 @@ class infiniband::params {
 
   case $::osfamily {
     'RedHat': {
-      $infiniband_support_packages    = [
-        'libibcm',
-        'libibverbs',
-        'libibverbs-utils',
-        'librdmacm',
-        'librdmacm-utils',
-        'rdma',
-        'dapl',
-        'ibacm',
-        'ibsim',
-        'ibutils',
-        'libcxgb3',
-        'libibmad',
-        'libibumad',
-        'libipathverbs',
-        'libmlx4',
-        'libmthca',
-        'libnes',
-        'rds-tools',
-      ]
+      if $::architecture == 'x86_64' { 
+        $infiniband_support_packages    = [
+          'libibcm',
+          'libibverbs',
+          'libibverbs-utils',
+          'librdmacm',
+          'librdmacm-utils',
+          'rdma',
+          'dapl',
+          'ibacm',
+          'ibsim',
+          'ibutils',
+          'libcxgb3',
+          'libibmad',
+          'libibumad',
+		  'libipathverbs',
+          'libmlx4',
+          'libmthca',
+          'libnes',
+          'rds-tools',
+        ]
+	  }
+	  elsif $::architecture == 'ppc64' {
+        $infiniband_support_packages    = [
+          'libibcm',
+          'libibverbs',
+          'libibverbs-utils',
+          'librdmacm',
+          'librdmacm-utils',
+          'rdma',
+          'dapl',
+          'ibacm',
+          'ibsim',
+          'ibutils',
+          'libcxgb3',
+          'libibmad',
+          'libibumad',
+          'libmlx4',
+          'libmthca',
+          'libnes',
+          'rds-tools',
+        ]
+	  }
       $optional_infiniband_packages   = [
         'compat-dapl',
         'infiniband-diags',
