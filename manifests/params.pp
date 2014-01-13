@@ -55,6 +55,7 @@ class infiniband::params {
           'libmthca',
           'libnes',
           'rds-tools',
+          'libehca',
         ]
 	  }
       $optional_infiniband_packages   = [
