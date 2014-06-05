@@ -1,26 +1,16 @@
 # == Define: infiniband::interface
 #
-# Configures an InfiniBand interface
-#
-# === Parameters
-#
-# === Examples
-#
-# === Authors
-#
-# Trey Dockendorf <treydock@gmail.com>
-#
-# === Copyright
-#
-# Copyright 2013 Trey Dockendorf
-#
+# See README.md for more details.
 define infiniband::interface(
   $ipaddr,
   $netmask,
+  $gateway        = 'UNSET',
   $ensure         = 'present',
   $enable         = true,
   $connected_mode = 'yes'
 ) {
+
+  include network
 
   validate_re($ensure, ['^present$','^absent$'])
 
@@ -44,8 +34,7 @@ define infiniband::interface(
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
-    notify  => Service['rdma'],
-    require => Package['rdma'],
+    notify  => Service['network'],
   }
 
 }

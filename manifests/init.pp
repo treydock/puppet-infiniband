@@ -1,77 +1,67 @@
 # == Class: infiniband
 #
-# Manage the necessary packages and services to support Infiniband.
-#
-# === Parameters
-#
-# Document parameters here.
-#
-# [*infiniband_support_packages*]
-#   Array of package names to install the infiniband support.
-#
-# [*optional_infiniband_packages*]
-#   Array of package names to install the optional infiniband support.
-#
-# [*with_optional_packages*]
-#   Boolean that determines if the optional packages will be installed.
-#
-# [*rdma_service_name*]
-#   Service name for RDMA.
-#
-# [*rdma_service_has_status*]
-#   Boolean to set if RDMA service has status option.
-#
-# [*rdma_service_has_restart*]
-#   Boolean to set if RDMA service has restart option.
-#
-# === Examples
-#
-#  class { infiniband:
-#    with_optional_packages => true
-#  }
-#
-# === Authors
-#
-# Trey Dockendorf <treydock@gmail.com>
-#
-# === Copyright
-#
-# Copyright 2013 Trey Dockendorf
-#
+# See README.md for more details.
 class infiniband (
-  $infiniband_support_packages  = $infiniband::params::infiniband_support_packages,
-  $optional_infiniband_packages = $infiniband::params::optional_infiniband_packages,
-  $with_optional_packages       = $infiniband::params::with_optional_packages,
-  $rdma_service_ensure          = $infiniband::params::rdma_service_ensure,
-  $rdma_service_enable          = $infiniband::params::rdma_service_enable,
+  $packages                     = 'UNSET',
+  $with_optional_packages       = true,
+  $rdma_service_ensure          = $infiniband::params::service_ensure,
+  $rdma_service_enable          = $infiniband::params::service_enable,
   $rdma_service_name            = $infiniband::params::rdma_service_name,
   $rdma_service_has_status      = $infiniband::params::rdma_service_has_status,
   $rdma_service_has_restart     = $infiniband::params::rdma_service_has_restart,
-  $interfaces                   = $infiniband::params::interfaces
+  $ibacm_service_ensure         = $infiniband::params::service_ensure,
+  $ibacm_service_enable         = $infiniband::params::service_enable,
+  $ibacm_service_name           = $infiniband::params::ibacm_service_name,
+  $ibacm_service_has_status     = $infiniband::params::ibacm_service_has_status,
+  $ibacm_service_has_restart    = $infiniband::params::ibacm_service_has_restart,
+  $rdma_conf_path               = $infiniband::params::rdma_conf_path,
+  $ipoib_load                   = 'yes',
+  $srp_load                     = 'no',
+  $iser_load                    = 'no',
+  $rds_load                     = 'no',
+  $fixup_mtrr_regs              = 'no',
+  $nfsordma_load                = 'yes',
+  $nfsordma_port                = 2050,
+  $manage_mlx4_core_options     = true,
+  $log_num_mtt                  = 'UNSET',
+  $log_mtts_per_seg             = '3',
+  $interfaces                   = {},
 ) inherits infiniband::params {
 
-  validate_array($infiniband_support_packages)
-  validate_array($optional_infiniband_packages)
   validate_bool($with_optional_packages)
-  if $interfaces { validate_hash($interfaces) }
+  validate_re($ipoib_load, ['^yes$', '^no$'])
+  validate_re($srp_load, ['^yes$', '^no$'])
+  validate_re($iser_load, ['^yes$', '^no$'])
+  validate_re($rds_load, ['^yes$', '^no$'])
+  validate_re($fixup_mtrr_regs, ['^yes$', '^no$'])
+  validate_re($nfsordma_load, ['^yes$', '^no$'])
+  validate_bool($manage_mlx4_core_options)
+  validate_hash($interfaces)
 
-  ensure_packages($infiniband_support_packages)
+  if $packages != 'UNSET' {
+    validate_array($packages)
 
-  if $with_optional_packages {
-    ensure_packages($optional_infiniband_packages)
+    $support_packages = $packages
+  } else {
+    $support_packages = $with_optional_packages ? {
+      true  => flatten([$infiniband::params::base_packages, $infiniband::params::optional_packages]),
+      false => $infiniband::params::base_packages,
+    }
   }
 
-  service { 'rdma':
-    ensure      => $rdma_service_ensure,
-    enable      => $rdma_service_enable,
-    name        => $rdma_service_name,
-    hasstatus   => $rdma_service_has_status,
-    hasrestart  => $rdma_service_has_restart,
-    require     => Package['rdma'],
-  }
+  include '::infiniband::install'
+  include '::infiniband::config'
+  include '::infiniband::service'
+  include '::infiniband::providers'
 
-  if $interfaces and !empty($interfaces) {
-    create_resources('infiniband::interface', $interfaces)
-  }
+  anchor { 'infiniband::start': }
+  anchor { 'infiniband::end': }
+
+  Anchor['infiniband::start']->
+  Class['infiniband::install']->
+  Class['infiniband::config']->
+  Class['infiniband::service']->
+  Class['infiniband::providers']->
+  Anchor['infiniband::end']
 
 }

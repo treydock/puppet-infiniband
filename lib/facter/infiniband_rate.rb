@@ -1,9 +1,9 @@
-# Fact: infiniband_fw_version
+# Fact: infiniband_rate
 #
-# Purpose: Report the version of the InfiniBand hardware
+# Purpose: Report the rate of the InfiniBand interface
 #
 # Resolution:
-#   Returns InfiniBand device FW Version
+#   Returns the rate string from /sys/class/infiniband/*/ports/*/rate.
 #
 # Caveats:
 #   Only tested on systems with a single InfiniBand device
@@ -11,15 +11,15 @@
 
 require 'facter/util/infiniband'
 
-Facter.add(:infiniband_fw_version) do
+Facter.add(:infiniband_rate) do
   confine :kernel => "Linux"
   confine :has_infiniband => true
   ports = Facter::Util::Infiniband.get_ports
   if ! ports.empty?
-    fw_version = Facter::Util::Infiniband.get_port_fw_version(ports.first)
-    if fw_version
+    rate = Facter::Util::Infiniband.get_port_rate(ports.first)
+    if rate
       setcode do
-        fw_version
+        rate[/^(\d+)\s/,1]
       end
     end
   end

@@ -8,18 +8,23 @@ describe 'has_infiniband fact' do
     Facter::Util::Resolution.stubs(:which).with("lspci").returns("/sbin/lspci")
   end
 
-  it "should return true when count_ib_devices is 1" do
-    Facter::Util::Infiniband.stubs(:count_ib_devices).with().returns(1)
+  it "should return true when Mellanox ConnectX card" do
+    Facter::Util::Infiniband.stubs(:lspci).returns(my_fixture_read('mellanox_lspci_1'))
     Facter.fact(:has_infiniband).value.should == true
   end
 
-  it "should return true when count_ib_devices is 2" do
-    Facter::Util::Infiniband.stubs(:count_ib_devices).with().returns(2)
+  it "should return true when QLogic card" do
+    Facter::Util::Infiniband.stubs(:lspci).returns(my_fixture_read('qlogic_lspci_1'))
     Facter.fact(:has_infiniband).value.should == true
   end
 
-  it "should return false count_ib_devices is 0" do
-    Facter::Util::Infiniband.stubs(:count_ib_devices).with().returns(0)
+  it "should return false when no IB device present" do
+    Facter::Util::Infiniband.stubs(:lspci).returns(my_fixture_read('noib_lspci_1'))
     Facter.fact(:has_infiniband).value.should == false
+  end
+
+  it "should return true with Mellanox ConnectX-3 card" do
+    Facter::Util::Infiniband.stubs(:lspci).returns(my_fixture_read('mellanox_lspci_2'))
+    Facter.fact(:has_infiniband).value.should == true
   end
 end

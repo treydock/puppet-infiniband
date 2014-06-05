@@ -1,15 +1,4 @@
-# Class: infiniband::params
-#
-#   The infiniband configuration settings.
-#
-# === Authors
-#
-# Trey Dockendorf <treydock@gmail.com>
-#
-# === Copyright
-#
-# Copyright 2013 Trey Dockendorf
-#
+# The infiniband default configuration settings.
 class infiniband::params {
 
   case $::osfamily {
@@ -86,15 +75,18 @@ class infiniband::params {
         'infiniband-diags',
         'libibcommon',
         'mstflint',
-        'opensm',
         'perftest',
         'qperf',
         'srptools',
       ]
-      $with_optional_packages         = true
-      $rdma_service_name              = 'rdma'
-      $rdma_service_has_status        = true
-      $rdma_service_has_restart       = true
+
+      $rdma_service_name          = 'rdma'
+      $rdma_service_has_status    = true
+      $rdma_service_has_restart   = true
+      $ibacm_service_name         = 'ibacm'
+      $ibacm_service_has_status   = true
+      $ibacm_service_has_restart  = true
+      $rdma_conf_path             = '/etc/rdma/rdma.conf'
     }
 
     default: {
@@ -102,21 +94,17 @@ class infiniband::params {
     }
   }
 
+  # Set default service states based on has_infiniband fact value
   case $::has_infiniband {
     /true/ : {
-      $rdma_service_ensure    = 'running'
-      $rdma_service_enable    = true
+      $service_ensure = 'running'
+      $service_enable = true
     }
 
     default : {
-      $rdma_service_ensure    = 'stopped'
-      $rdma_service_enable    = false
+      $service_ensure = 'stopped'
+      $service_enable = false
     }
-  }
-
-  $interfaces = $::infiniband_interfaces ? {
-    undef   => false,
-    default => $::infiniband_interfaces,
   }
 
 }

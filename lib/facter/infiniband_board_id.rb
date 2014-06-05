@@ -1,9 +1,9 @@
-# Fact: infiniband_fw_version
+# Fact: infiniband_board_id
 #
-# Purpose: Report the version of the InfiniBand hardware
+# Purpose: Report the board_id of the InfiniBand hardware
 #
 # Resolution:
-#   Returns InfiniBand device FW Version
+#   Returns the board_id (PSID).
 #
 # Caveats:
 #   Only tested on systems with a single InfiniBand device
@@ -11,15 +11,15 @@
 
 require 'facter/util/infiniband'
 
-Facter.add(:infiniband_fw_version) do
+Facter.add(:infiniband_board_id) do
   confine :kernel => "Linux"
   confine :has_infiniband => true
   ports = Facter::Util::Infiniband.get_ports
   if ! ports.empty?
-    fw_version = Facter::Util::Infiniband.get_port_fw_version(ports.first)
-    if fw_version
+    board_id = Facter::Util::Infiniband.get_port_board_id(ports.first)
+    if board_id
       setcode do
-        fw_version
+        board_id
       end
     end
   end
