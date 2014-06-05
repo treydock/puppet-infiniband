@@ -15,26 +15,49 @@ class infiniband::params {
   case $::osfamily {
     'RedHat': {
       if $::architecture == 'x86_64' { 
-        $infiniband_support_packages    = [
-          'libibcm',
-          'libibverbs',
-          'libibverbs-utils',
-          'librdmacm',
-          'librdmacm-utils',
-          'rdma',
-          'dapl',
-          'ibacm',
-          'ibsim',
-          'ibutils',
-          'libcxgb3',
-          'libibmad',
-          'libibumad',
-		  'libipathverbs',
-          'libmlx4',
-          'libmthca',
-          'libnes',
-          'rds-tools',
-        ]
+          if $::operatingsystemmajrelease == 6 {
+            $infiniband_support_packages    = [
+              'libibcm',
+              'libibverbs',
+              'libibverbs-utils',
+              'librdmacm',
+              'librdmacm-utils',
+              'rdma',
+              'dapl',
+              'ibacm',
+              'ibsim',
+              'ibutils',
+              'libcxgb3',
+              'libibmad',
+              'libibumad',
+    		  'libipathverbs',
+              'libmlx4',
+              'libmthca',
+              'libnes',
+              'rds-tools',
+            ]
+         } elsif $::operatingsystemmajrelease == 7 {
+             $infiniband_support_packages    = [
+               'libibcm',
+               'libibverbs',
+               'libibverbs-utils',
+               'librdmacm',
+               'librdmacm-utils',
+               'rdma',
+               'dapl',
+               'ibacm',
+               'ibutils',
+               'libcxgb3',
+               'libcxgb4',
+               'libibmad',
+               'libibumad',
+               'libipathverbs',
+               'libmlx4',
+               'libmlx5',
+               'libmthca',
+               'libnes',
+             ]
+         }
 	  }
 	  elsif $::architecture == 'ppc64' {
         $infiniband_support_packages    = [
