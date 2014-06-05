@@ -70,7 +70,7 @@ class infiniband::params {
           'libehca',
         ]
 	  }
-      $optional_infiniband_packages   = [
+      $optional_packages = [
         'compat-dapl',
         'infiniband-diags',
         'libibcommon',
