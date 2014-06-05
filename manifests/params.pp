@@ -5,7 +5,7 @@ class infiniband::params {
     'RedHat': {
       if $::architecture == 'x86_64' { 
           if $::operatingsystemmajrelease == 6 {
-            $infiniband_support_packages    = [
+            $base_packages    = [
               'libibcm',
               'libibverbs',
               'libibverbs-utils',
@@ -26,7 +26,7 @@ class infiniband::params {
               'rds-tools',
             ]
          } elsif $::operatingsystemmajrelease == 7 {
-             $infiniband_support_packages    = [
+             $base_packages    = [
                'libibcm',
                'libibverbs',
                'libibverbs-utils',
@@ -49,7 +49,7 @@ class infiniband::params {
          }
 	  }
 	  elsif $::architecture == 'ppc64' {
-        $infiniband_support_packages    = [
+        $base_packages    = [
           'libibcm',
           'libibverbs',
           'libibverbs-utils',
