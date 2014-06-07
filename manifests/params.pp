@@ -19,7 +19,7 @@ class infiniband::params {
               'libcxgb3',
               'libibmad',
               'libibumad',
-    		  'libipathverbs',
+              'libipathverbs',
               'libmlx4',
               'libmthca',
               'libnes',
@@ -47,8 +47,8 @@ class infiniband::params {
                'libnes',
              ]
          }
-	  }
-	  elsif $::architecture == 'ppc64' {
+      }
+      elsif $::architecture == 'ppc64' {
         $base_packages    = [
           'libibcm',
           'libibverbs',
@@ -69,7 +69,7 @@ class infiniband::params {
           'rds-tools',
           'libehca',
         ]
-	  }
+      }
       $optional_packages = [
         'compat-dapl',
         'infiniband-diags',
