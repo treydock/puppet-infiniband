@@ -3,27 +3,73 @@ class infiniband::params {
 
   case $::osfamily {
     'RedHat': {
-      $base_packages = [
-        'dapl',
-        'ibacm',
-        'ibsim',
-        'ibutils',
-        'libcxgb3',
-        'libibcm',
-        'libibmad',
-        'libibumad',
-        'libibverbs',
-        'libibverbs-utils',
-        'libipathverbs',
-        'libmlx4',
-        'libmthca',
-        'libnes',
-        'librdmacm',
-        'librdmacm-utils',
-        'rdma',
-        'rds-tools',
-      ]
-
+      if $::architecture == 'x86_64' { 
+          if $::operatingsystemmajrelease == 6 {
+            $base_packages    = [
+              'libibcm',
+              'libibverbs',
+              'libibverbs-utils',
+              'librdmacm',
+              'librdmacm-utils',
+              'rdma',
+              'dapl',
+              'ibacm',
+              'ibsim',
+              'ibutils',
+              'libcxgb3',
+              'libibmad',
+              'libibumad',
+              'libipathverbs',
+              'libmlx4',
+              'libmthca',
+              'libnes',
+              'rds-tools',
+            ]
+         } elsif $::operatingsystemmajrelease == 7 {
+             $base_packages    = [
+               'libibcm',
+               'libibverbs',
+               'libibverbs-utils',
+               'librdmacm',
+               'librdmacm-utils',
+               'rdma',
+               'dapl',
+               'ibacm',
+               'ibutils',
+               'libcxgb3',
+               'libcxgb4',
+               'libibmad',
+               'libibumad',
+               'libipathverbs',
+               'libmlx4',
+               'libmlx5',
+               'libmthca',
+               'libnes',
+             ]
+         }
+      }
+      elsif $::architecture == 'ppc64' {
+        $base_packages    = [
+          'libibcm',
+          'libibverbs',
+          'libibverbs-utils',
+          'librdmacm',
+          'librdmacm-utils',
+          'rdma',
+          'dapl',
+          'ibacm',
+          'ibsim',
+          'ibutils',
+          'libcxgb3',
+          'libibmad',
+          'libibumad',
+          'libmlx4',
+          'libmthca',
+          'libnes',
+          'rds-tools',
+          'libehca',
+        ]
+      }
       $optional_packages = [
         'compat-dapl',
         'infiniband-diags',
