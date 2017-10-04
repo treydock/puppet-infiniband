@@ -3,7 +3,39 @@ class infiniband::params {
 
   case $::osfamily {
     'RedHat': {
-      if versioncmp($::operatingsystemmajrelease, '7') == 0 {
+      if versioncmp($::operatingsystemrelease, "7.4.1708") == 0 {
+        $base_packages = [
+          'dapl',
+          'ibacm',
+          'iwpmd',
+          'ibutils',
+          'infiniband-diags',
+          'libibcm',
+          'libibmad',
+          'libibumad',
+          'libibverbs-13',
+          'libibverbs-utils-13',
+          'librdmacm',
+          'librdmacm-utils',
+          'mstflint',
+          'opa-address-resolution',
+          'opa-fastfabric',
+          'perftest',
+          'srp_daemon',
+        ]
+
+        $optional_packages = [
+          'compat-dapl',
+          'compat-opensm-libs',
+          'libibcommon',
+          'libusnic_verbs',
+          'libvma',
+          'opensm',
+          'rdma-core',
+          'qperf',
+          'usnic-tools',
+        ]
+      } elsif versioncmp($::operatingsystemmajrelease, '7') == 0 {
         $base_packages = [
           'dapl',
           'ibacm',
