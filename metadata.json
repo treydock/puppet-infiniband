@@ -29,14 +29,12 @@
     {
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
-        "6",
         "7"
       ]
     },
     {
       "operatingsystem": "CentOS",
       "operatingsystemrelease": [
-        "6",
         "7"
       ]
     }
@@ -44,7 +42,7 @@
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 5.0.0 < 7.0.0"
+      "version_requirement": ">= 6.0.0 < 8.0.0"
     }
   ],
   "description": "Infiniband module",
@@ -53,7 +51,7 @@
     "hpc",
     "rdma"
   ],
-  "pdk-version": "1.10.0",
+  "pdk-version": "1.17.0",
   "template-url": "https://github.com/treydock/pdk-templates.git#master",
-  "template-ref": "heads/master-0-ga43ae5b"
+  "template-ref": "heads/master-0-gad5f473"
 }
