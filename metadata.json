@@ -9,8 +9,12 @@
   "issues_url": "https://github.com/treydock/puppet-infiniband/issues",
   "dependencies": [
     {
+      "name": "example42/network",
+      "version_requirement": ">= 3.0.0 <4.0.0"
+    },
+    {
       "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 4.13.1 <6.0.0"
+      "version_requirement": ">= 4.13.1 <7.0.0"
     },
     {
       "name": "herculesteam/augeasproviders_shellvar",
@@ -18,11 +22,7 @@
     },
     {
       "name": "puppet/yum",
-      "version_requirement": ">= 1.0.0 <5.0.0"
-    },
-    {
-      "name": "example42/network",
-      "version_requirement": ">= 3.0.0 <4.0.0"
+      "version_requirement": ">= 1.0.0 <6.0.0"
     }
   ],
   "operatingsystem_support": [
