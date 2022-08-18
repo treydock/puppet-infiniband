@@ -37,6 +37,7 @@ define infiniband::interface (
   Enum['present', 'absent'] $ensure             = 'present',
   Boolean $enable                               = true,
   Enum['yes', 'no'] $connected_mode             = 'yes',
+  Enum['yes', 'no'] $nm_controlled              = 'no',
   Optional[Integer] $mtu                        = undef,
   Boolean $bonding                              = false,
   Array[String] $bonding_slaves                 = [],
@@ -69,7 +70,7 @@ define infiniband::interface (
         type                 => 'InfiniBand',
         master               => $name,
         slave                => 'yes',
-        nm_controlled        => 'no',
+        nm_controlled        => $nm_controlled,
         mtu                  => $mtu,
         options_extra_redhat => $options_extra_redhat,
       }
@@ -86,7 +87,7 @@ define infiniband::interface (
       gateway        => $gateway,
       bonding_master => 'yes',
       bonding_opts   => $bonding_opts,
-      nm_controlled  => 'no',
+      nm_controlled  => $nm_controlled,
       mtu            => $mtu,
     }
 
@@ -99,7 +100,7 @@ define infiniband::interface (
       ipaddress            => $ipaddr,
       netmask              => $netmask,
       gateway              => $gateway,
-      nm_controlled        => 'no',
+      nm_controlled        => $nm_controlled,
       mtu                  => $mtu,
       options_extra_redhat => $options_extra_redhat,
     }
