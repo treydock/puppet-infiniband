@@ -33,15 +33,15 @@
 define infiniband::interface (
   Stdlib::Compat::Ip_address $ipaddr,
   Stdlib::Compat::Ip_address $netmask,
-  Optional[Stdlib::Compat::Ip_address] $gateway = undef,
-  Enum['present', 'absent'] $ensure             = 'present',
-  Boolean $enable                               = true,
-  Enum['yes', 'no'] $connected_mode             = 'yes',
-  Enum['yes', 'no'] $nm_controlled              = 'no',
-  Optional[Integer] $mtu                        = undef,
-  Boolean $bonding                              = false,
-  Array[String] $bonding_slaves                 = [],
-  String $bonding_opts                          = 'mode=active-backup miimon=100',
+  Optional[Stdlib::Compat::Ip_address] $gateway               = undef,
+  Enum['present', 'absent'] $ensure                           = 'present',
+  Boolean $enable                                             = true,
+  Enum['yes', 'no'] $connected_mode                           = 'yes',
+  Optional[Variant[Boolean, Enum['yes','no']]] $nm_controlled = undef,
+  Optional[Integer] $mtu                                      = undef,
+  Boolean $bonding                                            = false,
+  Array[String] $bonding_slaves                               = [],
+  String $bonding_opts                                        = 'mode=active-backup miimon=100',
 ) {
 
   $onboot = $enable ? {
@@ -54,6 +54,12 @@ define infiniband::interface (
 
   $options_extra_redhat = {
     'CONNECTED_MODE' => $connected_mode,
+  }
+
+  if $::osfamily == 'RedHat' and versioncmp($::operatingsystemmajrelease, '8') >= 0 {
+    $_nm_controlled = pick($nm_controlled, false)
+  } else {
+    $_nm_controlled = pick($nm_controlled, 'no')
   }
 
   if $bonding {
@@ -70,7 +76,7 @@ define infiniband::interface (
         type                 => 'InfiniBand',
         master               => $name,
         slave                => 'yes',
-        nm_controlled        => $nm_controlled,
+        nm_controlled        => $_nm_controlled,
         mtu                  => $mtu,
         options_extra_redhat => $options_extra_redhat,
       }
@@ -87,7 +93,7 @@ define infiniband::interface (
       gateway        => $gateway,
       bonding_master => 'yes',
       bonding_opts   => $bonding_opts,
-      nm_controlled  => $nm_controlled,
+      nm_controlled  => $_nm_controlled,
       mtu            => $mtu,
     }
 
@@ -100,7 +106,7 @@ define infiniband::interface (
       ipaddress            => $ipaddr,
       netmask              => $netmask,
       gateway              => $gateway,
-      nm_controlled        => $nm_controlled,
+      nm_controlled        => $_nm_controlled,
       mtu                  => $mtu,
       options_extra_redhat => $options_extra_redhat,
     }
