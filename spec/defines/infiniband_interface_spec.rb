@@ -23,6 +23,14 @@ describe 'infiniband::interface' do
         default_params
       end
 
+      let :fixture_suffix do
+        if facts[:os]['family'] == 'RedHat' && facts[:os]['release']['major'].to_i >= 8
+          '-no_nm_controlled'
+        else
+          ''
+        end
+      end
+
       it { is_expected.to contain_class('network') }
 
       it do

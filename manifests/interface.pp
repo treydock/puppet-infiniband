@@ -19,6 +19,8 @@
 #   Sets if the infiniband::interface should be present or absent.
 # @param enable
 #   Sets if the infiniband::interface should be enabled at boot.
+# @param nm_controlled
+#   Value for nm_controlled on interface
 # @param connected_mode
 #   The CONNECTED_MODE value for the infiniband interface.
 # @param mtu
