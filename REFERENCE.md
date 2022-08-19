@@ -284,6 +284,7 @@ The following parameters are available in the `infiniband::interface` defined ty
 * [`gateway`](#gateway)
 * [`ensure`](#ensure)
 * [`enable`](#enable)
+* [`nm_controlled`](#nm_controlled)
 * [`connected_mode`](#connected_mode)
 * [`mtu`](#mtu)
 * [`bonding`](#bonding)
@@ -329,6 +330,14 @@ Data type: `Boolean`
 Sets if the infiniband::interface should be enabled at boot.
 
 Default value: ``true``
+
+##### <a name="nm_controlled"></a>`nm_controlled`
+
+Data type: `Optional[Variant[Boolean, Enum['yes','no']]]`
+
+Value for nm_controlled on interface
+
+Default value: ``undef``
 
 ##### <a name="connected_mode"></a>`connected_mode`
 
