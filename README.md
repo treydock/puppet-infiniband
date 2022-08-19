@@ -7,7 +7,8 @@ Installs the InfiniBand software stack.
 
 ## Support
 
-* CentOS 6 & 7 x86_64
+* RedHat/CentOS 7
+* RedHat/Rocky/Alma 8
 
 ## Usage
 
@@ -115,26 +116,3 @@ Return Hash of IPoIB netdev information:
   }
 }
 ```
-
-## Development
-
-### Testing
-
-Testing requires the following dependencies:
-
-* rake
-* bundler
-
-Install gem dependencies
-
-    bundle install
-
-Run unit tests
-
-    bundle exec rake test
-
-If you have Vagrant >= 1.2.0 installed you can run system tests
-
-    bundle exec rake beaker
-
-## TODO

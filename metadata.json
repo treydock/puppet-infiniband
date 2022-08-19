@@ -34,10 +34,21 @@
       ]
     },
     {
+      "operatingsystem": "Rocky",
+      "operatingsystemrelease": [
+        "8"
+      ]
+    },
+    {
+      "operatingsystem": "AlmaLinux",
+      "operatingsystemrelease": [
+        "8"
+      ]
+    },
+    {
       "operatingsystem": "CentOS",
       "operatingsystemrelease": [
-        "7",
-        "8"
+        "7"
       ]
     }
   ],
@@ -53,7 +64,7 @@
     "hpc",
     "rdma"
   ],
-  "pdk-version": "1.17.0",
+  "pdk-version": "2.1.0",
   "template-url": "https://github.com/treydock/pdk-templates.git#master",
-  "template-ref": "heads/master-0-gad5f473"
+  "template-ref": "heads/master-0-gd5daad3"
 }
