@@ -6,7 +6,7 @@
 <title>
   Defined Type: infiniband::interface
   
-    &mdash; Documentation by YARD 0.9.26
+    &mdash; Documentation by YARD 0.9.28
   
 </title>
 
@@ -203,6 +203,24 @@
   
     <li>
       
+        <span class='name'>nm_controlled</span>
+      
+      
+        <span class='type'>(<tt>Optional[Variant[Boolean, Enum['yes','no']]]</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Value for nm_controlled on interface</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
         <span class='name'>connected_mode</span>
       
       
@@ -302,8 +320,6 @@
         <pre class="lines">
 
 
-33
-34
 35
 36
 37
@@ -377,22 +393,32 @@
 105
 106
 107
-108</pre>
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/interface.pp', line 33</span>
+        <pre class="code"><span class="info file"># File 'manifests/interface.pp', line 35</span>
 
 define infiniband::interface (
   Stdlib::Compat::Ip_address $ipaddr,
   Stdlib::Compat::Ip_address $netmask,
-  Optional[Stdlib::Compat::Ip_address] $gateway = undef,
-  Enum[&#39;present&#39;, &#39;absent&#39;] $ensure             = &#39;present&#39;,
-  Boolean $enable                               = true,
-  Enum[&#39;yes&#39;, &#39;no&#39;] $connected_mode             = &#39;yes&#39;,
-  Optional[Integer] $mtu                        = undef,
-  Boolean $bonding                              = false,
-  Array[String] $bonding_slaves                 = [],
-  String $bonding_opts                          = &#39;mode=active-backup miimon=100&#39;,
+  Optional[Stdlib::Compat::Ip_address] $gateway               = undef,
+  Enum[&#39;present&#39;, &#39;absent&#39;] $ensure                           = &#39;present&#39;,
+  Boolean $enable                                             = true,
+  Enum[&#39;yes&#39;, &#39;no&#39;] $connected_mode                           = &#39;yes&#39;,
+  Optional[Variant[Boolean, Enum[&#39;yes&#39;,&#39;no&#39;]]] $nm_controlled = undef,
+  Optional[Integer] $mtu                                      = undef,
+  Boolean $bonding                                            = false,
+  Array[String] $bonding_slaves                               = [],
+  String $bonding_opts                                        = &#39;mode=active-backup miimon=100&#39;,
 ) {
 
   $onboot = $enable ? {
@@ -405,6 +431,12 @@ define infiniband::interface (
 
   $options_extra_redhat = {
     &#39;CONNECTED_MODE&#39; =&gt; $connected_mode,
+  }
+
+  if $::osfamily == &#39;RedHat&#39; and versioncmp($::operatingsystemmajrelease, &#39;8&#39;) &gt;= 0 {
+    $_nm_controlled = pick($nm_controlled, false)
+  } else {
+    $_nm_controlled = pick($nm_controlled, &#39;no&#39;)
   }
 
   if $bonding {
@@ -421,7 +453,7 @@ define infiniband::interface (
         type                 =&gt; &#39;InfiniBand&#39;,
         master               =&gt; $name,
         slave                =&gt; &#39;yes&#39;,
-        nm_controlled        =&gt; &#39;no&#39;,
+        nm_controlled        =&gt; $_nm_controlled,
         mtu                  =&gt; $mtu,
         options_extra_redhat =&gt; $options_extra_redhat,
       }
@@ -438,7 +470,7 @@ define infiniband::interface (
       gateway        =&gt; $gateway,
       bonding_master =&gt; &#39;yes&#39;,
       bonding_opts   =&gt; $bonding_opts,
-      nm_controlled  =&gt; &#39;no&#39;,
+      nm_controlled  =&gt; $_nm_controlled,
       mtu            =&gt; $mtu,
     }
 
@@ -451,7 +483,7 @@ define infiniband::interface (
       ipaddress            =&gt; $ipaddr,
       netmask              =&gt; $netmask,
       gateway              =&gt; $gateway,
-      nm_controlled        =&gt; &#39;no&#39;,
+      nm_controlled        =&gt; $_nm_controlled,
       mtu                  =&gt; $mtu,
       options_extra_redhat =&gt; $options_extra_redhat,
     }
