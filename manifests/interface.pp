@@ -79,6 +79,10 @@ define infiniband::interface (
         mtu                  => $mtu,
         method               => 'static',
         hotplug              => 'false',
+        options              => {
+          'TYPE'          => 'Infiniband',
+          'NM_CONTROLLED' => $_nm_controlled,
+        }
       }
     }
 
@@ -93,6 +97,11 @@ define infiniband::interface (
       mtu            => $mtu,
       method         => 'static',
       hotplug        => 'false',
+      options        => {
+        'TYPE'          => 'Infiniband',
+        'NM_CONTROLLED' => $_nm_controlled,
+        'GATEWAY'       => $gateway,
+      }
     }
 
   } else {
@@ -104,6 +113,11 @@ define infiniband::interface (
       mtu                  => $mtu,
       method               => 'static',
       hotplug              => 'false',
+      options              => {
+        'TYPE'          => 'Infiniband',
+        'NM_CONTROLLED' => $_nm_controlled,
+        'GATEWAY'       => $gateway,
+      }
     }
   }
 
