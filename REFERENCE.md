@@ -297,19 +297,19 @@ The resource title.  Sets the interfaces name, for example 'ib0'.
 
 ##### <a name="ipaddr"></a>`ipaddr`
 
-Data type: `Stdlib::Compat::Ip_address`
+Data type: `Stdlib::IP::Address`
 
 The IPADDR for the infiniband interface.
 
 ##### <a name="netmask"></a>`netmask`
 
-Data type: `Stdlib::Compat::Ip_address`
+Data type: `Stdlib::IP::Address`
 
 The NETMASK for the infiniband interface.
 
 ##### <a name="gateway"></a>`gateway`
 
-Data type: `Optional[Stdlib::Compat::Ip_address]`
+Data type: `Optional[Stdlib::IP::Address]`
 
 The GATEWAY for the infiniband interface.
 

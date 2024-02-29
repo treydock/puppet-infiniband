@@ -10,7 +10,7 @@
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 4.13.1 <8.0.0"
+      "version_requirement": ">= 4.13.1 <10.0.0"
     },
     {
       "name": "herculesteam/augeasproviders_shellvar",
@@ -18,7 +18,7 @@
     },
     {
       "name": "puppet/yum",
-      "version_requirement": ">= 1.0.0 <6.0.0"
+      "version_requirement": ">= 1.0.0 <8.0.0"
     },
     {
       "name": "example42/network",
