@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This function calculates the appropriate value for mlx4_core module's `log_num_mtt` parameter.
 #
 # The formula is `max_reg_mem = (2^log_num_mtt) * (2^log_mtts_per_seg) * (page_size_bytes)`.  This function finds the
@@ -29,6 +31,7 @@ Puppet::Functions.create_function(:'infiniband::calc_log_num_mtt') do
       target_next = (2**(i + 1)) * page_size_bytes.to_i * log_mtts_per_seg_multiplier
 
       break if target > reg_mem
+
       if target == reg_mem
         result = i
       elsif target < reg_mem && target_next > reg_mem

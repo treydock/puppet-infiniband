@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 # Infiniband fact util class
 class Facter::Util::Infiniband
   # REF: http://cateee.net/lkddb/web-lkddb/INFINIBAND.html
-  LSPCI_IB_REGEX = %r{\s(1077|15b3|1678|1867|18b8|1fc1):}
+  LSPCI_IB_REGEX = %r{\s(1077|15b3|1678|1867|18b8|1fc1):}.freeze
 
   # lspci is a delegating helper method intended to make it easier to stub the
   # system call without affecting other calls to Facter::Core::Execution.exec
@@ -36,6 +38,7 @@ class Facter::Util::Infiniband
   def self.read_sysfs(path)
     output = Facter::Util::Resolution.exec(['cat ', path].join) if File.exist?(path)
     return nil if output.nil?
+
     output.strip
   end
 
@@ -47,6 +50,7 @@ class Facter::Util::Infiniband
   def self.port_sysfs_path(hca, port)
     port_sysfs_path = File.join('/sys/class/infiniband', hca, 'ports', port)
     return nil unless File.exist?(port_sysfs_path)
+
     port_sysfs_path
   end
 
@@ -67,8 +71,7 @@ class Facter::Util::Infiniband
       return nil
     end
 
-    fw_version = read_sysfs(sysfs_fw_file)
-    fw_version
+    read_sysfs(sysfs_fw_file)
   end
 
   # Returns board_id of an InfiniBand port
@@ -78,8 +81,7 @@ class Facter::Util::Infiniband
   # @api private
   def self.get_port_board_id(port)
     sysfs_path = File.join('/sys/class/infiniband', port, 'board_id')
-    board_id = read_sysfs(sysfs_path)
-    board_id
+    read_sysfs(sysfs_path)
   end
 
   # Returns Array of InfiniBand ports
@@ -88,8 +90,7 @@ class Facter::Util::Infiniband
   #
   # @api private
   def self.ports
-    ports = Dir.glob('/sys/class/infiniband/*').map { |d| File.basename(d) }
-    ports
+    Dir.glob('/sys/class/infiniband/*').map { |d| File.basename(d) }
   end
 
   # Returns rate of InifniBand port
@@ -102,8 +103,7 @@ class Facter::Util::Infiniband
     return nil if port_sysfs_path.nil?
 
     rate_sysfs_path = File.join(port_sysfs_path, 'rate')
-    rate = read_sysfs(rate_sysfs_path)
-    rate
+    read_sysfs(rate_sysfs_path)
   end
 
   # Returns array of HCAs on the system
@@ -132,6 +132,7 @@ class Facter::Util::Infiniband
     unless Facter::Util::Resolution.which('ibstat')
       return {}
     end
+
     output = Facter::Util::Resolution.exec("ibstat -p #{hca}")
     output.each_line.with_index do |line, index|
       guid = line.strip
@@ -148,8 +149,7 @@ class Facter::Util::Infiniband
   # @api private
   def self.get_hca_board_id(hca)
     sysfs_path = File.join('/sys/class/infiniband', hca, 'board_id')
-    board_id = read_sysfs(sysfs_path)
-    board_id
+    read_sysfs(sysfs_path)
   end
 
   # Returns rate of InifniBand port
@@ -164,6 +164,7 @@ class Facter::Util::Infiniband
     rate_sysfs_path = File.join(port_sysfs_path, 'rate')
     rate = read_sysfs(rate_sysfs_path)
     return nil if rate.nil?
+
     rate[%r{^(\d+)\s}, 1]
   end
 
@@ -179,6 +180,7 @@ class Facter::Util::Infiniband
     state_sysfs_path = File.join(port_sysfs_path, 'state')
     state = read_sysfs(state_sysfs_path)
     return nil if state.nil?
+
     state[%r{: (.*)}, 1]
   end
 
@@ -192,8 +194,7 @@ class Facter::Util::Infiniband
     return nil if port_sysfs_path.nil?
 
     linklayer_sysfs_path = File.join(port_sysfs_path, 'link_layer')
-    linklayer = read_sysfs(linklayer_sysfs_path)
-    linklayer
+    read_sysfs(linklayer_sysfs_path)
   end
 
   # Returns hash of net device names (ib0, p1p1) and data about each
@@ -206,9 +207,11 @@ class Facter::Util::Infiniband
     unless Facter::Util::Resolution.which('ibdev2netdev')
       return {}
     end
+
     output = Facter::Util::Resolution.exec('ibdev2netdev')
     return {} if output.nil?
     return {} if output.strip.empty?
+
     output.each_line do |line|
       split = line.split(' ')
       netdevs[split[4]] = {

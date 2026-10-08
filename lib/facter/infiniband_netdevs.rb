@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Fact: infiniband_netdevs
 #
 # Purpose: Report the network device names and information

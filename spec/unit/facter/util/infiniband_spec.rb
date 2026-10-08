@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 require 'facter/util/infiniband'
 
@@ -58,7 +60,7 @@ describe Facter::Util::Infiniband do
     end
 
     it 'returns nil' do
-      allow(described_class).to receive(:read_sysfs).never
+      allow(described_class).not_to receive(:read_sysfs)
       expect(described_class.get_port_fw_version('foo')).to be_nil
     end
   end
@@ -143,6 +145,7 @@ describe Facter::Util::Infiniband do
       allow(described_class).to receive(:read_sysfs).with('/sys/class/infiniband/mlx5_0/board_id').and_return('foo')
       expect(described_class.get_hca_board_id('mlx5_0')).to eq('foo')
     end
+
     it 'returns nil' do
       allow(described_class).to receive(:read_sysfs).with('/sys/class/infiniband/mlx5_0/board_id').and_return(nil)
       expect(described_class.get_hca_board_id('mlx5_0')).to be_nil

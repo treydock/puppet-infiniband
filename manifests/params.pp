@@ -1,8 +1,7 @@
 # @summary The infiniband default configuration settings.
 # @api private
 class infiniband::params {
-
-  case $::osfamily {
+  case $facts['os']['family'] {
     'RedHat': {
       $rdma_service_name          = 'rdma'
       $rdma_service_has_status    = true
@@ -14,12 +13,12 @@ class infiniband::params {
     }
 
     default: {
-      fail("Unsupported osfamily: ${::osfamily}, module ${module_name} only supports osfamily RedHat")
+      fail("Unsupported osfamily: ${facts['os']['family']}, module ${module_name} only supports osfamily RedHat")
     }
   }
 
   # Set default service states based on has_infiniband fact value
-  case $::has_infiniband {
+  case $facts['has_infiniband'] {
     true : {
       $service_ensure = 'running'
       $service_enable = true
@@ -29,5 +28,4 @@ class infiniband::params {
       $service_enable = false
     }
   }
-
 }

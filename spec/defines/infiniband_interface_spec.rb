@@ -1,11 +1,12 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'infiniband::interface' do
   on_supported_os.each do |os, facts|
-    context "on #{os}" do
-      let :facts do
-        facts.merge(has_infiniband: true,
-                    memorysize_mb: '64399.75')
+    context "when #{os}" do
+      let(:facts) do
+        facts.merge(concat_basedir: '/dne')
       end
 
       let :title do
@@ -23,78 +24,61 @@ describe 'infiniband::interface' do
         default_params
       end
 
-      let :fixture_suffix do
-        if facts[:os]['family'] == 'RedHat' && facts[:os]['release']['major'].to_i >= 8
-          '-no_nm_controlled'
-        else
-          ''
-        end
-      end
-
-      it { is_expected.to contain_class('network') }
-
       it do
-        is_expected.to contain_file('/etc/sysconfig/network-scripts/ifcfg-ib0').with('ensure' => 'present',
-                                                                                     'owner'   => 'root',
-                                                                                     'group'   => 'root',
-                                                                                     'mode'    => '0644')
+        is_expected.to contain_network_config('ib0').with(
+          ensure: 'present',
+          onboot: true,
+          ipaddress: '192.168.1.1',
+          netmask: '255.255.255.0',
+          mtu: nil,
+          method: 'static',
+          hotplug: false,
+          options: {
+            'TYPE' => 'Infiniband',
+            'CONNECTED_MODE' => 'yes',
+          },
+        )
       end
 
-      it do
-        is_expected.to contain_file('/etc/sysconfig/network-scripts/ifcfg-ib0') \
-          .with_content(my_fixture_read("ifcfg-ib0_with_connected_mode#{fixture_suffix}"))
+      context 'when ensure => absent' do
+        let(:params) { { ensure: 'absent' } }
+
+        it { is_expected.to contain_network_config('ib0').with_ensure('absent') }
       end
 
-      context 'ensure => absent' do
-        let :params do
-          default_params.merge(ensure: 'absent')
-        end
-
-        it { is_expected.to contain_file('/etc/sysconfig/network-scripts/ifcfg-ib0').with_ensure('absent') }
-      end
-
-      context 'enable => false' do
+      context 'when enable => false' do
         let :params do
           default_params.merge(enable: false)
         end
 
-        it { is_expected.to contain_file('/etc/sysconfig/network-scripts/ifcfg-ib0').with_content(my_fixture_read("ifcfg-ib0_with_onboot_no#{fixture_suffix}")) }
+        it { is_expected.to contain_network_config('ib0').with_onboot(false) }
       end
 
-      context 'connected_mode => no' do
+      context 'when connected_mode => no' do
         let :params do
           default_params.merge(connected_mode: 'no')
         end
 
-        it { is_expected.to contain_file('/etc/sysconfig/network-scripts/ifcfg-ib0').with_content(my_fixture_read("ifcfg-ib0_without_connected_mode#{fixture_suffix}")) }
+        it { is_expected.to contain_network_config('ib0').with_options({ 'TYPE' => 'Infiniband', 'CONNECTED_MODE' => 'no' }) }
       end
 
-      context 'mtu => 65520' do
+      context 'when mtu => 65520' do
         let :params do
           default_params.merge(mtu: 65_520)
         end
 
-        it { is_expected.to contain_file('/etc/sysconfig/network-scripts/ifcfg-ib0'). with_content(my_fixture_read("ifcfg-ib0_with_mtu#{fixture_suffix}")) }
+        it { is_expected.to contain_network_config('ib0').with_mtu(65_520) }
       end
 
-      context 'gateway => 192.168.1.254' do
+      context 'when gateway => 192.168.1.254' do
         let :params do
           default_params.merge(gateway: '192.168.1.254')
         end
 
-        it { is_expected.to contain_file('/etc/sysconfig/network-scripts/ifcfg-ib0').with_content(my_fixture_read("ifcfg-ib0_with_gateway#{fixture_suffix}")) }
+        it { is_expected.to contain_network_config('ib0').with_options({ 'TYPE' => 'Infiniband', 'GATEWAY' => '192.168.1.254', 'CONNECTED_MODE' => 'yes' }) }
       end
 
-      context 'bonding => true' do
-        let :facts do
-          facts.merge(has_infiniband: true,
-                      memorysize_mb: '64399.75',
-                      infiniband_netdevs: {
-                        ib0: { hca: 'mlx5_0' },
-                        ib1: { hca: 'mlx5_1' },
-                      })
-        end
-
+      context 'when bonding => true' do
         let :title do
           'ibbond0'
         end
@@ -103,14 +87,56 @@ describe 'infiniband::interface' do
           default_params.merge(bonding: true, bonding_slaves: ['ib0', 'ib1'], mtu: 65_520)
         end
 
-        it {
-          is_expected.to contain_file('/etc/sysconfig/network-scripts/ifcfg-ib0').with_content(my_fixture_read("ifcfg-bond-slave-ib0#{fixture_suffix}"))
-          is_expected.to contain_file('/etc/sysconfig/network-scripts/ifcfg-ib1').with_content(my_fixture_read("ifcfg-bond-slave-ib1#{fixture_suffix}"))
-          is_expected.to contain_file('/etc/sysconfig/network-scripts/ifcfg-ibbond0').with_content(my_fixture_read("ifcfg-bond-master-ibbond0#{fixture_suffix}"))
-        }
+        it do
+          is_expected.to contain_network_config('ib0').with(
+            ensure: 'present',
+            onboot: true,
+            mtu: 65_520,
+            method: 'static',
+            hotplug: false,
+            options: {
+              'TYPE' => 'Infiniband',
+              'MASTER' => 'ibbond0',
+              'SLAVE' => 'yes',
+              'CONNECTED_MODE' => 'yes',
+            },
+          )
+        end
+
+        it do
+          is_expected.to contain_network_config('ib1').with(
+            ensure: 'present',
+            onboot: true,
+            mtu: 65_520,
+            method: 'static',
+            hotplug: false,
+            options: {
+              'TYPE' => 'Infiniband',
+              'MASTER' => 'ibbond0',
+              'SLAVE' => 'yes',
+              'CONNECTED_MODE' => 'yes',
+            },
+          )
+        end
+
+        it do
+          is_expected.to contain_network_config('ibbond0').with(
+            ensure: 'present',
+            onboot: true,
+            mtu: 65_520,
+            method: 'static',
+            hotplug: false,
+            options: {
+              'TYPE' => 'Bond',
+              'BONDING_MASTER' => 'yes',
+              'BONDING_OPTS' => 'mode=active-backup miimon=100',
+              'CONNECTED_MODE' => 'yes',
+            },
+          )
+        end
       end
 
-      context 'bonding => true, no slave interfaces' do
+      context 'when bonding => true, no slave interfaces' do
         let :params do
           default_params.merge(bonding: true)
         end

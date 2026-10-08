@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Fact: infiniband_hcas
 #
 # Purpose: Determine list of Infiniband HCAs

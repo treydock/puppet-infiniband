@@ -1,15 +1,15 @@
-require 'beaker-rspec'
-require 'beaker-puppet'
-require 'beaker/puppet_install_helper'
-require 'beaker/module_install_helper'
+# frozen_string_literal: true
 
-dir = File.expand_path(File.dirname(__FILE__))
+require 'voxpupuli/acceptance/spec_helper_acceptance'
+
+dir = __dir__
 Dir["#{dir}/acceptance/shared_examples/**/*.rb"].sort.each { |f| require f }
 require 'spec_helper_acceptance_local' if File.file?(File.join(File.dirname(__FILE__), 'spec_helper_acceptance_local.rb'))
 
-run_puppet_install_helper
-install_module_on(hosts)
-install_module_dependencies_on(hosts)
+if ['debian-12', 'debian-13', 'ubuntu-2404', 'ubuntu-2604'].include?(ENV['BEAKER_set'])
+  ENV['BEAKER_PUPPET_COLLECTION'] = 'none'
+end
+configure_beaker
 
 RSpec.configure do |c|
   # Readable test descriptions

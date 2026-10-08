@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Fact: has_infiniband
 #
 # Purpose: Determine if the system's hardware supports InfiniBand.
@@ -15,6 +17,6 @@ Facter.add(:has_infiniband) do
   confine kernel: 'Linux'
   setcode do
     ib_device_count = Facter::Util::Infiniband.count_ib_devices
-    ib_device_count > 0
+    ib_device_count.positive?
   end
 end

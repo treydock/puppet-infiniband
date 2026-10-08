@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Fact: infiniband_fw_version
 #
 # Purpose: Report the version of the InfiniBand hardware

@@ -1,7 +1,7 @@
 # @summary Manage InfiniBand support
 #
 # @example
-#   include ::infiniband
+#   include infiniband
 #
 # @param extra_packages
 #   The extra packges to install.
@@ -80,7 +80,6 @@ class infiniband (
   Integer $log_mtts_per_seg             = 3,
   Hash $interfaces                      = {},
 ) inherits infiniband::params {
-
   if $manage_mlx4_core_options {
     $real_log_num_mtt = $log_num_mtt ? {
       Undef   => infiniband::calc_log_num_mtt($facts.dig('memory','system','total_bytes'), $log_mtts_per_seg),
@@ -88,19 +87,13 @@ class infiniband (
     }
   }
 
-  include '::infiniband::install'
-  include '::infiniband::config'
-  include '::infiniband::service'
-  include '::infiniband::providers'
+  include infiniband::install
+  include infiniband::config
+  include infiniband::service
+  include infiniband::providers
 
-  anchor { 'infiniband::start': }
-  anchor { 'infiniband::end': }
-
-  Anchor['infiniband::start']
-  -> Class['infiniband::install']
+  Class['infiniband::install']
   -> Class['infiniband::config']
   -> Class['infiniband::service']
   -> Class['infiniband::providers']
-  -> Anchor['infiniband::end']
-
 }

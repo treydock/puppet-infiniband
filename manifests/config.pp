@@ -1,7 +1,6 @@
 # @summary Manage InfiniBand config
 # @api private
 class infiniband::config {
-
   Shellvar {
     ensure  => present,
     target  => $infiniband::rdma_conf_path,
@@ -24,5 +23,4 @@ class infiniband::config {
       mode    => '0644',
     }
   }
-
 }

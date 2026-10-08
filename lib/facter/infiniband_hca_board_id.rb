@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Fact: infiniband_hca_board_id
 #
 # Purpose: Determine the board ID of HCA

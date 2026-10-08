@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Fact: infiniband_board_id
 #
 # Purpose: Report the board_id of the InfiniBand hardware

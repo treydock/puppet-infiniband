@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Fact: infiniband_rate
 #
 # Purpose: Report the rate of the InfiniBand interface

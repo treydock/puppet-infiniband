@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Fact: infiniband_hca_port_guids
 #
 # Purpose: Determine list of Infiniband HCA port GUIDs

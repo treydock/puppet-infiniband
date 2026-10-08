@@ -10,61 +10,56 @@
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 4.13.1 <8.0.0"
+      "version_requirement": ">= 4.25.0 <11.0.0"
     },
     {
-      "name": "herculesteam/augeasproviders_shellvar",
-      "version_requirement": ">=2.0.0 <5.0.0"
+      "name": "puppet/augeasproviders_shellvar",
+      "version_requirement": ">=5.0.0 <8.0.0"
     },
     {
       "name": "puppet/yum",
-      "version_requirement": ">= 1.0.0 <6.0.0"
+      "version_requirement": ">= 1.0.0 <9.0.0"
     },
     {
-      "name": "example42/network",
-      "version_requirement": ">= 3.0.0 <4.0.0"
+      "name": "puppet/network",
+      "version_requirement": ">= 2.0.0 <4.0.0"
     }
   ],
   "operatingsystem_support": [
     {
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
-        "7",
-        "8"
+        "8",
+        "9"
       ]
     },
     {
       "operatingsystem": "Rocky",
       "operatingsystemrelease": [
-        "8"
+        "8",
+        "9"
       ]
     },
     {
       "operatingsystem": "AlmaLinux",
       "operatingsystemrelease": [
-        "8"
-      ]
-    },
-    {
-      "operatingsystem": "CentOS",
-      "operatingsystemrelease": [
-        "7"
+        "8",
+        "9"
       ]
     }
   ],
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 6.0.0 < 8.0.0"
+      "version_requirement": ">= 8.0.0 < 9.0.0"
     }
   ],
-  "description": "Infiniband module",
   "tags": [
     "infiniband",
     "hpc",
     "rdma"
   ],
-  "pdk-version": "2.1.0",
+  "pdk-version": "3.4.0",
   "template-url": "https://github.com/treydock/pdk-templates.git#master",
-  "template-ref": "heads/master-0-gd5daad3"
+  "template-ref": "heads/master-0-g25f2bd5"
 }

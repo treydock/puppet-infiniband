@@ -7,8 +7,8 @@ Installs the InfiniBand software stack.
 
 ## Support
 
-* RedHat/CentOS 7
 * RedHat/Rocky/Alma 8
+* RedHat/Rocky/Alma 9
 
 ## Usage
 
