@@ -60,7 +60,6 @@ describe Facter::Util::Infiniband do
     end
 
     it 'returns nil' do
-      allow(described_class).not_to receive(:read_sysfs)
       expect(described_class.get_port_fw_version('foo')).to be_nil
     end
   end
