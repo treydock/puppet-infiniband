@@ -20,11 +20,11 @@
 
 ### Defined types
 
-* [`infiniband::interface`](#infinibandinterface): Manage IPoIB interface
+* [`infiniband::interface`](#infiniband--interface): Manage IPoIB interface
 
 ### Functions
 
-* [`infiniband::calc_log_num_mtt`](#infinibandcalc_log_num_mtt): This function calculates the appropriate value for mlx4_core module's `log_num_mtt` parameter.  The formula is `max_reg_mem = (2^log_num_mtt)
+* [`infiniband::calc_log_num_mtt`](#infiniband--calc_log_num_mtt): This function calculates the appropriate value for mlx4_core module's `log_num_mtt` parameter.  The formula is `max_reg_mem = (2^log_num_mtt)
 
 ## Classes
 
@@ -37,38 +37,38 @@ Manage InfiniBand support
 ##### 
 
 ```puppet
-include ::infiniband
+include infiniband
 ```
 
 #### Parameters
 
 The following parameters are available in the `infiniband` class:
 
-* [`extra_packages`](#extra_packages)
-* [`rdma_service_ensure`](#rdma_service_ensure)
-* [`rdma_service_enable`](#rdma_service_enable)
-* [`rdma_service_name`](#rdma_service_name)
-* [`rdma_service_has_status`](#rdma_service_has_status)
-* [`rdma_service_has_restart`](#rdma_service_has_restart)
-* [`ibacm_service_ensure`](#ibacm_service_ensure)
-* [`ibacm_service_enable`](#ibacm_service_enable)
-* [`ibacm_service_name`](#ibacm_service_name)
-* [`ibacm_service_has_status`](#ibacm_service_has_status)
-* [`ibacm_service_has_restart`](#ibacm_service_has_restart)
-* [`rdma_conf_path`](#rdma_conf_path)
-* [`ipoib_load`](#ipoib_load)
-* [`srp_load`](#srp_load)
-* [`iser_load`](#iser_load)
-* [`rds_load`](#rds_load)
-* [`fixup_mtrr_regs`](#fixup_mtrr_regs)
-* [`nfsordma_load`](#nfsordma_load)
-* [`nfsordma_port`](#nfsordma_port)
-* [`manage_mlx4_core_options`](#manage_mlx4_core_options)
-* [`log_num_mtt`](#log_num_mtt)
-* [`log_mtts_per_seg`](#log_mtts_per_seg)
-* [`interfaces`](#interfaces)
+* [`extra_packages`](#-infiniband--extra_packages)
+* [`rdma_service_ensure`](#-infiniband--rdma_service_ensure)
+* [`rdma_service_enable`](#-infiniband--rdma_service_enable)
+* [`rdma_service_name`](#-infiniband--rdma_service_name)
+* [`rdma_service_has_status`](#-infiniband--rdma_service_has_status)
+* [`rdma_service_has_restart`](#-infiniband--rdma_service_has_restart)
+* [`ibacm_service_ensure`](#-infiniband--ibacm_service_ensure)
+* [`ibacm_service_enable`](#-infiniband--ibacm_service_enable)
+* [`ibacm_service_name`](#-infiniband--ibacm_service_name)
+* [`ibacm_service_has_status`](#-infiniband--ibacm_service_has_status)
+* [`ibacm_service_has_restart`](#-infiniband--ibacm_service_has_restart)
+* [`rdma_conf_path`](#-infiniband--rdma_conf_path)
+* [`ipoib_load`](#-infiniband--ipoib_load)
+* [`srp_load`](#-infiniband--srp_load)
+* [`iser_load`](#-infiniband--iser_load)
+* [`rds_load`](#-infiniband--rds_load)
+* [`fixup_mtrr_regs`](#-infiniband--fixup_mtrr_regs)
+* [`nfsordma_load`](#-infiniband--nfsordma_load)
+* [`nfsordma_port`](#-infiniband--nfsordma_port)
+* [`manage_mlx4_core_options`](#-infiniband--manage_mlx4_core_options)
+* [`log_num_mtt`](#-infiniband--log_num_mtt)
+* [`log_mtts_per_seg`](#-infiniband--log_mtts_per_seg)
+* [`interfaces`](#-infiniband--interfaces)
 
-##### <a name="extra_packages"></a>`extra_packages`
+##### <a name="-infiniband--extra_packages"></a>`extra_packages`
 
 Data type: `Array`
 
@@ -76,7 +76,7 @@ The extra packges to install.
 
 Default value: `[]`
 
-##### <a name="rdma_service_ensure"></a>`rdma_service_ensure`
+##### <a name="-infiniband--rdma_service_ensure"></a>`rdma_service_ensure`
 
 Data type: `String`
 
@@ -85,7 +85,7 @@ Default to 'running' if `has_infiniband` fact is 'true', and 'stopped' if 'has_i
 
 Default value: `$infiniband::params::service_ensure`
 
-##### <a name="rdma_service_enable"></a>`rdma_service_enable`
+##### <a name="-infiniband--rdma_service_enable"></a>`rdma_service_enable`
 
 Data type: `Boolean`
 
@@ -94,7 +94,7 @@ Default to true if `has_infiniband` fact is 'true', and false if 'has_infiniband
 
 Default value: `$infiniband::params::service_enable`
 
-##### <a name="rdma_service_name"></a>`rdma_service_name`
+##### <a name="-infiniband--rdma_service_name"></a>`rdma_service_name`
 
 Data type: `String`
 
@@ -102,7 +102,7 @@ RDMA service name.
 
 Default value: `$infiniband::params::rdma_service_name`
 
-##### <a name="rdma_service_has_status"></a>`rdma_service_has_status`
+##### <a name="-infiniband--rdma_service_has_status"></a>`rdma_service_has_status`
 
 Data type: `Boolean`
 
@@ -110,7 +110,7 @@ RDMA service has_status parameter.
 
 Default value: `$infiniband::params::rdma_service_has_status`
 
-##### <a name="rdma_service_has_restart"></a>`rdma_service_has_restart`
+##### <a name="-infiniband--rdma_service_has_restart"></a>`rdma_service_has_restart`
 
 Data type: `Boolean`
 
@@ -118,7 +118,7 @@ RDMA service has_restart parameter.
 
 Default value: `$infiniband::params::rdma_service_has_restart`
 
-##### <a name="ibacm_service_ensure"></a>`ibacm_service_ensure`
+##### <a name="-infiniband--ibacm_service_ensure"></a>`ibacm_service_ensure`
 
 Data type: `String`
 
@@ -127,7 +127,7 @@ Default to 'running' if `has_infiniband` fact is 'true', and 'stopped' if 'has_i
 
 Default value: `$infiniband::params::service_ensure`
 
-##### <a name="ibacm_service_enable"></a>`ibacm_service_enable`
+##### <a name="-infiniband--ibacm_service_enable"></a>`ibacm_service_enable`
 
 Data type: `Boolean`
 
@@ -136,7 +136,7 @@ Default to true if `has_infiniband` fact is 'true', and false if 'has_infiniband
 
 Default value: `$infiniband::params::service_enable`
 
-##### <a name="ibacm_service_name"></a>`ibacm_service_name`
+##### <a name="-infiniband--ibacm_service_name"></a>`ibacm_service_name`
 
 Data type: `String`
 
@@ -144,7 +144,7 @@ ibacm service name.
 
 Default value: `$infiniband::params::ibacm_service_name`
 
-##### <a name="ibacm_service_has_status"></a>`ibacm_service_has_status`
+##### <a name="-infiniband--ibacm_service_has_status"></a>`ibacm_service_has_status`
 
 Data type: `Boolean`
 
@@ -152,7 +152,7 @@ ibacm service has_status parameter.
 
 Default value: `$infiniband::params::ibacm_service_has_status`
 
-##### <a name="ibacm_service_has_restart"></a>`ibacm_service_has_restart`
+##### <a name="-infiniband--ibacm_service_has_restart"></a>`ibacm_service_has_restart`
 
 Data type: `Boolean`
 
@@ -160,7 +160,7 @@ ibacm service has_restart parameter.
 
 Default value: `$infiniband::params::ibacm_service_has_restart`
 
-##### <a name="rdma_conf_path"></a>`rdma_conf_path`
+##### <a name="-infiniband--rdma_conf_path"></a>`rdma_conf_path`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -168,7 +168,7 @@ The RDMA service configuration path.
 
 Default value: `$infiniband::params::rdma_conf_path`
 
-##### <a name="ipoib_load"></a>`ipoib_load`
+##### <a name="-infiniband--ipoib_load"></a>`ipoib_load`
 
 Data type: `Enum['yes', 'no']`
 
@@ -176,7 +176,7 @@ Sets the `IPOIB_LOAD` setting for the RDMA service.
 
 Default value: `'yes'`
 
-##### <a name="srp_load"></a>`srp_load`
+##### <a name="-infiniband--srp_load"></a>`srp_load`
 
 Data type: `Enum['yes', 'no']`
 
@@ -184,7 +184,7 @@ Sets the `SRP_LOAD` setting for the RDMA service.
 
 Default value: `'no'`
 
-##### <a name="iser_load"></a>`iser_load`
+##### <a name="-infiniband--iser_load"></a>`iser_load`
 
 Data type: `Enum['yes', 'no']`
 
@@ -192,7 +192,7 @@ Sets the `ISER_LOAD` setting for the RDMA service.
 
 Default value: `'no'`
 
-##### <a name="rds_load"></a>`rds_load`
+##### <a name="-infiniband--rds_load"></a>`rds_load`
 
 Data type: `Enum['yes', 'no']`
 
@@ -200,7 +200,7 @@ Sets the `RDS_LOAD` setting for the RDMA service.
 
 Default value: `'no'`
 
-##### <a name="fixup_mtrr_regs"></a>`fixup_mtrr_regs`
+##### <a name="-infiniband--fixup_mtrr_regs"></a>`fixup_mtrr_regs`
 
 Data type: `Enum['yes', 'no']`
 
@@ -208,7 +208,7 @@ Sets the `FIXUP_MTRR_REGS` setting for the RDMA service.
 
 Default value: `'no'`
 
-##### <a name="nfsordma_load"></a>`nfsordma_load`
+##### <a name="-infiniband--nfsordma_load"></a>`nfsordma_load`
 
 Data type: `Enum['yes', 'no']`
 
@@ -216,7 +216,7 @@ Sets the `NFSoRDMA_LOAD` setting for the RDMA service.
 
 Default value: `'yes'`
 
-##### <a name="nfsordma_port"></a>`nfsordma_port`
+##### <a name="-infiniband--nfsordma_port"></a>`nfsordma_port`
 
 Data type: `Integer[0, 65535]`
 
@@ -224,24 +224,24 @@ Sets the `NFSoRDMA_PORT` setting for the RDMA service.
 
 Default value: `2050`
 
-##### <a name="manage_mlx4_core_options"></a>`manage_mlx4_core_options`
+##### <a name="-infiniband--manage_mlx4_core_options"></a>`manage_mlx4_core_options`
 
 Data type: `Boolean`
 
 Boolean that determines if '/etc/modprobe.d/mlx4_core.conf' should be managed.
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="log_num_mtt"></a>`log_num_mtt`
+##### <a name="-infiniband--log_num_mtt"></a>`log_num_mtt`
 
 Data type: `Optional[Integer]`
 
 Sets the mlx4_core module's 'log_num_mtt' value.
 When the value is undef the value is determined using the `calc_log_num_mtt` parser function.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="log_mtts_per_seg"></a>`log_mtts_per_seg`
+##### <a name="-infiniband--log_mtts_per_seg"></a>`log_mtts_per_seg`
 
 Data type: `Integer`
 
@@ -249,7 +249,7 @@ Sets the mlx4_core module's 'log_mtts_per_seq' value.
 
 Default value: `3`
 
-##### <a name="interfaces"></a>`interfaces`
+##### <a name="-infiniband--interfaces"></a>`interfaces`
 
 Data type: `Hash`
 
@@ -259,7 +259,7 @@ Default value: `{}`
 
 ## Defined types
 
-### <a name="infinibandinterface"></a>`infiniband::interface`
+### <a name="infiniband--interface"></a>`infiniband::interface`
 
 Manage IPoIB interface
 
@@ -278,44 +278,48 @@ infiniband::interface { 'ib0':
 
 The following parameters are available in the `infiniband::interface` defined type:
 
-* [`name`](#name)
-* [`ipaddr`](#ipaddr)
-* [`netmask`](#netmask)
-* [`gateway`](#gateway)
-* [`ensure`](#ensure)
-* [`enable`](#enable)
-* [`nm_controlled`](#nm_controlled)
-* [`connected_mode`](#connected_mode)
-* [`mtu`](#mtu)
-* [`bonding`](#bonding)
-* [`bonding_slaves`](#bonding_slaves)
-* [`bonding_opts`](#bonding_opts)
+* [`name`](#-infiniband--interface--name)
+* [`ipaddr`](#-infiniband--interface--ipaddr)
+* [`netmask`](#-infiniband--interface--netmask)
+* [`gateway`](#-infiniband--interface--gateway)
+* [`ensure`](#-infiniband--interface--ensure)
+* [`enable`](#-infiniband--interface--enable)
+* [`nm_controlled`](#-infiniband--interface--nm_controlled)
+* [`connected_mode`](#-infiniband--interface--connected_mode)
+* [`mtu`](#-infiniband--interface--mtu)
+* [`bonding`](#-infiniband--interface--bonding)
+* [`bonding_slaves`](#-infiniband--interface--bonding_slaves)
+* [`bonding_opts`](#-infiniband--interface--bonding_opts)
 
-##### <a name="name"></a>`name`
+##### <a name="-infiniband--interface--name"></a>`name`
 
 The resource title.  Sets the interfaces name, for example 'ib0'.
 
-##### <a name="ipaddr"></a>`ipaddr`
+##### <a name="-infiniband--interface--ipaddr"></a>`ipaddr`
 
-Data type: `Stdlib::Compat::Ip_address`
+Data type: `Optional[Stdlib::IP::Address]`
 
 The IPADDR for the infiniband interface.
 
-##### <a name="netmask"></a>`netmask`
+Default value: `undef`
 
-Data type: `Stdlib::Compat::Ip_address`
+##### <a name="-infiniband--interface--netmask"></a>`netmask`
+
+Data type: `Optional[Stdlib::IP::Address]`
 
 The NETMASK for the infiniband interface.
 
-##### <a name="gateway"></a>`gateway`
+Default value: `undef`
 
-Data type: `Optional[Stdlib::Compat::Ip_address]`
+##### <a name="-infiniband--interface--gateway"></a>`gateway`
+
+Data type: `Optional[Stdlib::IP::Address]`
 
 The GATEWAY for the infiniband interface.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="ensure"></a>`ensure`
+##### <a name="-infiniband--interface--ensure"></a>`ensure`
 
 Data type: `Enum['present', 'absent']`
 
@@ -323,23 +327,23 @@ Sets if the infiniband::interface should be present or absent.
 
 Default value: `'present'`
 
-##### <a name="enable"></a>`enable`
+##### <a name="-infiniband--interface--enable"></a>`enable`
 
 Data type: `Boolean`
 
 Sets if the infiniband::interface should be enabled at boot.
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="nm_controlled"></a>`nm_controlled`
+##### <a name="-infiniband--interface--nm_controlled"></a>`nm_controlled`
 
-Data type: `Optional[Variant[Boolean, Enum['yes','no']]]`
+Data type: `Optional[Enum['yes','no']]`
 
 Value for nm_controlled on interface
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="connected_mode"></a>`connected_mode`
+##### <a name="-infiniband--interface--connected_mode"></a>`connected_mode`
 
 Data type: `Enum['yes', 'no']`
 
@@ -347,23 +351,23 @@ The CONNECTED_MODE value for the infiniband interface.
 
 Default value: `'yes'`
 
-##### <a name="mtu"></a>`mtu`
+##### <a name="-infiniband--interface--mtu"></a>`mtu`
 
 Data type: `Optional[Integer]`
 
 The MTU for the infiniband interface.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="bonding"></a>`bonding`
+##### <a name="-infiniband--interface--bonding"></a>`bonding`
 
 Data type: `Boolean`
 
 If this interface is a bonding interface (true/false); defaults to false
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="bonding_slaves"></a>`bonding_slaves`
+##### <a name="-infiniband--interface--bonding_slaves"></a>`bonding_slaves`
 
 Data type: `Array[String]`
 
@@ -371,7 +375,7 @@ Array of interfaces that should be enslaved in the bonding interface
 
 Default value: `[]`
 
-##### <a name="bonding_opts"></a>`bonding_opts`
+##### <a name="-infiniband--interface--bonding_opts"></a>`bonding_opts`
 
 Data type: `String`
 
@@ -381,7 +385,7 @@ Default value: `'mode=active-backup miimon=100'`
 
 ## Functions
 
-### <a name="infinibandcalc_log_num_mtt"></a>`infiniband::calc_log_num_mtt`
+### <a name="infiniband--calc_log_num_mtt"></a>`infiniband::calc_log_num_mtt`
 
 Type: Ruby 4.x API
 
