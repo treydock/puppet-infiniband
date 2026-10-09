@@ -7,7 +7,7 @@ describe 'has_infiniband fact' do
   before :each do
     Facter.clear
     allow(Facter.fact(:kernel)).to receive(:value).and_return('Linux')
-    allow(Facter::Util::Resolution).to receive(:which).with('lspci').and_return('/sbin/lspci')
+    allow(Facter::Core::Execution).to receive(:which).with('lspci').and_return('/sbin/lspci')
   end
 
   it 'returns true when Mellanox ConnectX card' do

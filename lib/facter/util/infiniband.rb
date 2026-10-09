@@ -9,7 +9,7 @@ class Facter::Util::Infiniband
   # system call without affecting other calls to Facter::Core::Execution.exec
   def self.lspci(command = 'lspci -n 2>/dev/null')
     # TODO: Deprecated in facter-2.0
-    Facter::Util::Resolution.exec command
+    Facter::Core::Execution.execute command
     # TODO: Not supported in facter < 2.0
     # Facter::Core::Execution.exec command
   end
@@ -22,7 +22,7 @@ class Facter::Util::Infiniband
   # @api private
   def self.count_ib_devices
     count = 0
-    if Facter::Util::Resolution.which('lspci')
+    if Facter::Core::Execution.which('lspci')
       output = lspci
       matches = output.scan(LSPCI_IB_REGEX)
       count = matches.flatten.reject { |s| s.nil? }.length
@@ -36,7 +36,7 @@ class Facter::Util::Infiniband
   #
   # @api private
   def self.read_sysfs(path)
-    output = Facter::Util::Resolution.exec(['cat ', path].join) if File.exist?(path)
+    output = Facter::Core::Execution.execute(['cat ', path].join) if File.exist?(path)
     return nil if output.nil?
 
     output.strip
@@ -129,11 +129,11 @@ class Facter::Util::Infiniband
   # @api private
   def self.get_hca_port_guids(hca)
     port_guids = {}
-    unless Facter::Util::Resolution.which('ibstat')
+    unless Facter::Core::Execution.which('ibstat')
       return {}
     end
 
-    output = Facter::Util::Resolution.exec("ibstat -p #{hca}")
+    output = Facter::Core::Execution.execute("ibstat -p #{hca}")
     output.each_line.with_index do |line, index|
       guid = line.strip
       port = index + 1
@@ -204,11 +204,11 @@ class Facter::Util::Infiniband
   # @api private
   def self.netdev_to_hcaport
     netdevs = {}
-    unless Facter::Util::Resolution.which('ibdev2netdev')
+    unless Facter::Core::Execution.which('ibdev2netdev')
       return {}
     end
 
-    output = Facter::Util::Resolution.exec('ibdev2netdev')
+    output = Facter::Core::Execution.execute('ibdev2netdev')
     return {} if output.nil?
     return {} if output.strip.empty?
 

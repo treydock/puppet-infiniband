@@ -2,11 +2,17 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## Unreleased
+
+- tskirvin: adding `infiniband_fw_versions.rb` to report multiple firmware
+  versions on different adapters
+
 ## [v4.1.0](https://github.com/treydock/puppet-infiniband/tree/v4.1.0) (2022-08-22)
 
 [Full Changelog](https://github.com/treydock/puppet-infiniband/compare/v4.0.0...v4.1.0)
 
 ### Added
+
 
 - Replace CentOS 8 support with Rocky/AlmaLinux 8 [\#34](https://github.com/treydock/puppet-infiniband/pull/34) ([treydock](https://github.com/treydock))
 - Mirror puppet-module-mofed nm\_controlled behavior [\#33](https://github.com/treydock/puppet-infiniband/pull/33) ([pedmon](https://github.com/pedmon))
