@@ -6,7 +6,7 @@
 <title>
   Puppet Function: infiniband::calc_log_num_mtt (Ruby 4.x API)
   
-    &mdash; Documentation by YARD 0.9.28
+    &mdash; Documentation by YARD 0.9.36
   
 </title>
 
@@ -87,17 +87,14 @@
   <div class="docstring">
     <div class="discussion">
       
-<p>This function calculates the appropriate value for mlx4_core module&#39;s
-<code>log_num_mtt</code> parameter.</p>
+<p>This function calculates the appropriate value for mlx4_core module’s <code>log_num_mtt</code> parameter.</p>
 
-<p>The formula is <code>max_reg_mem = (2^log_num_mtt) * (2^log_mtts_per_seg) *
-(page_size_bytes)</code>. This function finds the log_num_mtt necessary to
-make &#39;max_reg_mem&#39; twice the size of system&#39;s RAM. Ref: <a
-href="http://community.mellanox.com/docs/DOC-1120">community.mellanox.com/docs/DOC-1120</a>.</p>
+<p>The formula is <code>max_reg_mem = (2^log_num_mtt) * (2^log_mtts_per_seg) * (page_size_bytes)</code>. This function finds the log_num_mtt necessary to make ‘max_reg_mem’ twice the size of system’s RAM. Ref: <a href="http://community.mellanox.com/docs/DOC-1120">community.mellanox.com/docs/DOC-1120</a>.</p>
 
     </div>
   </div>
   
+
 
 <div class="tags">
   
@@ -159,8 +156,7 @@ href="http://community.mellanox.com/docs/DOC-1120">community.mellanox.com/docs/D
       
         &mdash;
         <div class='inline'>
-<p>The system&#39;s page size in bytes. Defaults to <code>4096</code> if
-undefined.</p>
+<p>The system’s page size in bytes. Defaults to <code>4096</code> if undefined.</p>
 </div>
       
     </li>
@@ -194,8 +190,6 @@ undefined.</p>
         <pre class="lines">
 
 
-5
-6
 7
 8
 9
@@ -232,10 +226,13 @@ undefined.</p>
 40
 41
 42
-43</pre>
+43
+44
+45
+46</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'lib/puppet/functions/infiniband/calc_log_num_mtt.rb', line 5</span>
+        <pre class="code"><span class="info file"># File 'lib/puppet/functions/infiniband/calc_log_num_mtt.rb', line 7</span>
 
 <span class='const'>Puppet</span><span class='op'>::</span><span class='const'>Functions</span><span class='period'>.</span><span class='id identifier rubyid_create_function'>create_function</span><span class='lparen'>(</span><span class='symbol'>:&#39;infiniband::calc_log_num_mtt&#39;</span><span class='rparen'>)</span> <span class='kw'>do</span>
   <span class='comment'># @param mem The system memory in bytes
@@ -264,6 +261,7 @@ undefined.</p>
       <span class='id identifier rubyid_target_next'>target_next</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='int'>2</span><span class='op'>**</span><span class='lparen'>(</span><span class='id identifier rubyid_i'>i</span> <span class='op'>+</span> <span class='int'>1</span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='op'>*</span> <span class='id identifier rubyid_page_size_bytes'>page_size_bytes</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='op'>*</span> <span class='id identifier rubyid_log_mtts_per_seg_multiplier'>log_mtts_per_seg_multiplier</span>
 
       <span class='kw'>break</span> <span class='kw'>if</span> <span class='id identifier rubyid_target'>target</span> <span class='op'>&gt;</span> <span class='id identifier rubyid_reg_mem'>reg_mem</span>
+
       <span class='kw'>if</span> <span class='id identifier rubyid_target'>target</span> <span class='op'>==</span> <span class='id identifier rubyid_reg_mem'>reg_mem</span>
         <span class='id identifier rubyid_result'>result</span> <span class='op'>=</span> <span class='id identifier rubyid_i'>i</span>
       <span class='kw'>elsif</span> <span class='id identifier rubyid_target'>target</span> <span class='op'>&lt;</span> <span class='id identifier rubyid_reg_mem'>reg_mem</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_target_next'>target_next</span> <span class='op'>&gt;</span> <span class='id identifier rubyid_reg_mem'>reg_mem</span>

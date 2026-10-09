@@ -6,7 +6,7 @@
 <title>
   Puppet Class: infiniband
   
-    &mdash; Documentation by YARD 0.9.28
+    &mdash; Documentation by YARD 0.9.36
   
 </title>
 
@@ -87,13 +87,14 @@
 </div>
 
 
+
 <div class="tags">
   
   <div class="examples">
     <p class="tag_title">Examples:</p>
     
       
-      <pre class="example code"><code>include ::infiniband</code></pre>
+      <pre class="example code"><code><span class='id identifier rubyid_include'>include</span> <span class='id identifier rubyid_infiniband'>infiniband</span></code></pre>
     
   </div>
 <p class="tag_title">Parameters:</p>
@@ -130,9 +131,7 @@
       
         &mdash;
         <div class='inline'>
-<p>RDMA service ensure parameter. Default to &#39;running&#39; if
-<code>has_infiniband</code> fact is &#39;true&#39;, and &#39;stopped&#39;
-if &#39;has_infiniband&#39; fact is &#39;false&#39;.</p>
+<p>RDMA service ensure parameter. Default to ‘running’ if <code>has_infiniband</code> fact is ‘true’, and ‘stopped’ if ‘has_infiniband’ fact is ‘false’.</p>
 </div>
       
     </li>
@@ -150,9 +149,7 @@ if &#39;has_infiniband&#39; fact is &#39;false&#39;.</p>
       
         &mdash;
         <div class='inline'>
-<p>RDMA service enable parameter. Default to true if
-<code>has_infiniband</code> fact is &#39;true&#39;, and false if
-&#39;has_infiniband&#39; fact is &#39;false&#39;.</p>
+<p>RDMA service enable parameter. Default to true if <code>has_infiniband</code> fact is ‘true’, and false if ‘has_infiniband’ fact is ‘false’.</p>
 </div>
       
     </li>
@@ -224,9 +221,7 @@ if &#39;has_infiniband&#39; fact is &#39;false&#39;.</p>
       
         &mdash;
         <div class='inline'>
-<p>ibacm service ensure parameter. Default to &#39;running&#39; if
-<code>has_infiniband</code> fact is &#39;true&#39;, and &#39;stopped&#39;
-if &#39;has_infiniband&#39; fact is &#39;false&#39;.</p>
+<p>ibacm service ensure parameter. Default to ‘running’ if <code>has_infiniband</code> fact is ‘true’, and ‘stopped’ if ‘has_infiniband’ fact is ‘false’.</p>
 </div>
       
     </li>
@@ -244,9 +239,7 @@ if &#39;has_infiniband&#39; fact is &#39;false&#39;.</p>
       
         &mdash;
         <div class='inline'>
-<p>ibacm service enable parameter. Default to true if
-<code>has_infiniband</code> fact is &#39;true&#39;, and false if
-&#39;has_infiniband&#39; fact is &#39;false&#39;.</p>
+<p>ibacm service enable parameter. Default to true if <code>has_infiniband</code> fact is ‘true’, and false if ‘has_infiniband’ fact is ‘false’.</p>
 </div>
       
     </li>
@@ -462,8 +455,7 @@ if &#39;has_infiniband&#39; fact is &#39;false&#39;.</p>
       
         &mdash;
         <div class='inline'>
-<p>Boolean that determines if &#39;/etc/modprobe.d/mlx4_core.conf&#39; should
-be managed.</p>
+<p>Boolean that determines if ‘/etc/modprobe.d/mlx4_core.conf’ should be managed.</p>
 </div>
       
     </li>
@@ -481,9 +473,7 @@ be managed.</p>
       
         &mdash;
         <div class='inline'>
-<p>Sets the mlx4_core module&#39;s &#39;log_num_mtt&#39; value. When the value
-is undef the value is determined using the <code>calc_log_num_mtt</code>
-parser function.</p>
+<p>Sets the mlx4_core module’s ‘log_num_mtt’ value. When the value is undef the value is determined using the <code>calc_log_num_mtt</code> parser function.</p>
 </div>
       
     </li>
@@ -501,7 +491,7 @@ parser function.</p>
       
         &mdash;
         <div class='inline'>
-<p>Sets the mlx4_core module&#39;s &#39;log_mtts_per_seq&#39; value.</p>
+<p>Sets the mlx4_core module’s ‘log_mtts_per_seq’ value.</p>
 </div>
       
     </li>
@@ -519,8 +509,7 @@ parser function.</p>
       
         &mdash;
         <div class='inline'>
-<p>This Hash can be used to define <code>infiniband::interface</code>
-resources.</p>
+<p>This Hash can be used to define <code>infiniband::interface</code> resources.</p>
 </div>
       
     </li>
@@ -577,14 +566,7 @@ resources.</p>
 96
 97
 98
-99
-100
-101
-102
-103
-104
-105
-106</pre>
+99</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/init.pp', line 58</span>
@@ -614,7 +596,6 @@ class infiniband (
   Integer $log_mtts_per_seg             = 3,
   Hash $interfaces                      = {},
 ) inherits infiniband::params {
-
   if $manage_mlx4_core_options {
     $real_log_num_mtt = $log_num_mtt ? {
       Undef   =&gt; infiniband::calc_log_num_mtt($facts.dig(&#39;memory&#39;,&#39;system&#39;,&#39;total_bytes&#39;), $log_mtts_per_seg),
@@ -622,21 +603,15 @@ class infiniband (
     }
   }
 
-  include &#39;::infiniband::install&#39;
-  include &#39;::infiniband::config&#39;
-  include &#39;::infiniband::service&#39;
-  include &#39;::infiniband::providers&#39;
+  include infiniband::install
+  include infiniband::config
+  include infiniband::service
+  include infiniband::providers
 
-  anchor { &#39;infiniband::start&#39;: }
-  anchor { &#39;infiniband::end&#39;: }
-
-  Anchor[&#39;infiniband::start&#39;]
-  -&gt; Class[&#39;infiniband::install&#39;]
+  Class[&#39;infiniband::install&#39;]
   -&gt; Class[&#39;infiniband::config&#39;]
   -&gt; Class[&#39;infiniband::service&#39;]
   -&gt; Class[&#39;infiniband::providers&#39;]
-  -&gt; Anchor[&#39;infiniband::end&#39;]
-
 }</pre>
       </td>
     </tr>

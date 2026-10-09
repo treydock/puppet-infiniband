@@ -6,7 +6,7 @@
 <title>
   Puppet Class: infiniband::params
   
-    &mdash; Documentation by YARD 0.9.28
+    &mdash; Documentation by YARD 0.9.36
   
 </title>
 
@@ -91,6 +91,7 @@
 </div>
 
 
+
 <div class="tags">
   
 
@@ -130,16 +131,13 @@
 28
 29
 30
-31
-32
-33</pre>
+31</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/params.pp', line 3</span>
 
 class infiniband::params {
-
-  case $::osfamily {
+  case $facts[&#39;os&#39;][&#39;family&#39;] {
     &#39;RedHat&#39;: {
       $rdma_service_name          = &#39;rdma&#39;
       $rdma_service_has_status    = true
@@ -151,12 +149,12 @@ class infiniband::params {
     }
 
     default: {
-      fail(&quot;Unsupported osfamily: ${::osfamily}, module ${module_name} only supports osfamily RedHat&quot;)
+      fail(&quot;Unsupported osfamily: ${facts[&#39;os&#39;][&#39;family&#39;]}, module ${module_name} only supports osfamily RedHat&quot;)
     }
   }
 
   # Set default service states based on has_infiniband fact value
-  case $::has_infiniband {
+  case $facts[&#39;has_infiniband&#39;] {
     true : {
       $service_ensure = &#39;running&#39;
       $service_enable = true
@@ -166,7 +164,6 @@ class infiniband::params {
       $service_enable = false
     }
   }
-
 }</pre>
       </td>
     </tr>
